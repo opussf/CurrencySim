@@ -1,23 +1,32 @@
-<html><head><title>Currency Simulator</title></head>
-	<body onload=document.login.username.focus()>
-		<h1><center>Welcome to Currency Simulator</center></h1>
-		<hr>
-		<table border=0 align=left width=75%>
-			<tr><td align=left><table border=0> <!-- Left side menu bar -->
-				<tr><td><a href="version.php">Version History</a></td></tr>
-				<tr><td>&nbsp;</td></tr>
-				<tr><td><a href="signup.php">Sign up</a></td></tr>
-				<tr><td><a href="#">Forgot Password</a></td></tr>
-			</table>
-			<td align=right><table border=0>	<!-- Login Form -->
-				<form name=login action="login.php" method="post">
-					<tr><th>Username:</th><td><input type="text" name="username"></td></tr>
-					<tr><th>Password:</th><td><input type="password" name="password"></td></tr>
-					<tr><td></td><td align=center><input type="submit" name="submit" value="Login"></td></tr>
-				</form>
-			</table>
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/currency.css">
+	<script src="js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Currency Simulator</title>
+</head>
+<body onload=document.login.username.focus()>
+	<div class="container-fluid">
+	<h1><center>Welcome to Currency Simulator</center></h1>
+	<hr>
+	<table border=0 align=left width=75%>
+		<tr><td align=left><table border=0> <!-- Left side menu bar -->
+			<tr><td><a href="version.php">Version History</a></td></tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr><td><a href="signup.php">Sign up</a></td></tr>
+			<tr><td><a href="#">Forgot Password</a></td></tr>
 		</table>
-
-	</body>
+		<td align=right><table border=0>	<!-- Login Form -->
+			<form name=login action="login.php" method="post">
+				<tr><th>Username:</th><td><input type="text" name="username"></td></tr>
+				<tr><th>Password:</th><td><input type="password" name="password"></td></tr>
+				<tr><td></td><td align=center><input type="submit" name="submit" value="Login"></td></tr>
+			</form>
+		</table>
+	</table>
+	</div>
+</body>
 </html>
 

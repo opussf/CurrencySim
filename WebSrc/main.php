@@ -66,6 +66,7 @@ if ($oldStamina < $staminaMax) { # Add stamina
 		$extraHeadTags.="<meta http-equiv='refresh' content='20'></meta>";
 	}
 }
+$staminaPercent = min(100, $stamina / $staminaMax * 100);
 	
 #print("Updated: $last Old stamina: $oldStamina. Elapsed: $elapsed. tilNext: $timeTilNext Gained: $staminaGained Current: $stamina<br />\n");
 #print("Next:    $next Percent: $timePercent<br/>\n");
@@ -136,19 +137,55 @@ if ($isAdmin != 0) {
 }
 
 ?>
-<html>
-<head><title>Currency Simulator</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Currency Simulator</title>
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/currency.css">
+<script src="js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <?=$extraHeadTags?>
 </head>
 <body>
+<div class="container-fluid">
+<div class="row head">
+<div class="row">
+<div class="col-lg-12">
 <?php
-print("Hello $name.<br/>You currently have $stamina / $staminaMax energy. $timeString<br/><hr/>");
+print("Hello $name.");
 ?>
+</div> <!-- col -->
+</div> <!-- row -->
+<div class="row">
+<div class="col-lg-6">
+<div class="meter-wrap">
+<div class="meter-value" style="width: <?=$staminaPercent?>%">
+<div class="width: 100%">
+<div class="meter-value" style="background-color: #f4424e; width: <?=$timePercent?>%">
+<div class="meter-text">
+<?php
+print("Energy: $stamina / $staminaMax. Time till next: $timeString");
+?>
+</div> <!-- meter-text -->
+</div> <!-- meter-value -->
+</div> <!-- meter-wrap time -->
+</div> <!-- meter-value -->
+</div> <!-- meter-wrap -->
+</div> <!-- col -->
+</div>  <!-- row -->
+</div>  <!-- row head -->
+<div class="row">
+<div class="col-lg-12 amazing-form">
 <form action="main.php" method="post">
 <input type=hidden name=form value="roll">
 --&gt;
 <input type=submit value="Do something Amazing">
 </form>
+</div> <!-- col amazing-form -->
+</div> <!-- row -->
+<div class="row"> <!-- body of data -->
+
 <?php
 print("<table><tr><th>Currency</th><th>Level</th><th>Number</th></tr>\n");
 foreach( $currencyCounts as $value ) {
@@ -164,5 +201,7 @@ foreach( $currencyCounts as $value ) {
 }
 print("</table>");
 ?>
+</div> <!-- row - body of data -->
+</div>   <!-- container-fluid -->
 </body>
 </html>

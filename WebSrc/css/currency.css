@@ -1,0 +1,28 @@
+body {
+	background-image: url('../bg/128-168.jpg');
+}
+
+div.head {
+}
+
+div.meter-wrap div.meter-value div.meter-text {
+	height: 20px;
+}
+
+div.meter-wrap {
+	width: 100%;
+	background-color: #fff;
+	border: solid #000;
+}
+div.meter-value {
+	background-color: #09f;
+	height: 20px;
+}
+div.meter-text {
+	white-space: nowrap;
+	text-align: left;
+}
+
+
+div.amazing-form {
+	border-bottom: solid #000;
