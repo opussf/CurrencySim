@@ -23,6 +23,13 @@
     <li>Added ability to sign up a new user.
     <li>~ 3.5 hours
     <li>Added headerTags variable (can now refresh if not full)
+<dt>29 Oct 2016 --</dt>
+<dd><li>Creating a github for this.
+    <li>Adding a progress bar for energy and time
+    <li>Formatting with BootStrap
+    <li>~ 3 hours
+    
 </dl>
+
 </body>
 </html>
