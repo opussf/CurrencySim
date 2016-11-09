@@ -28,7 +28,9 @@
     <li>Adding a progress bar for energy and time
     <li>Formatting with BootStrap
     <li>~ 3 hours
-    
+<dt>9 Nov 2016 --</dt>
+<dd><li>Cleaning up the sign up and login pages.  
+    <li>~ 2 hours    
 </dl>
 
 </body>
