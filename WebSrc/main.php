@@ -53,7 +53,7 @@ $timeSinceLast = ($elapsed - ($staminaGained * $staminaRate));
 $timePercent = ($timeSinceLast / $staminaRate) * 100;
 $timeTilNext = $staminaRate - $timeSinceLast;
 $stamina = $oldStamina;
-$timeString = date("i:s", $timeTilNext);
+$timeString = "Time till next: ".date("i:s", $timeTilNext);
 
 if ($oldStamina < $staminaMax) { # Add stamina
 	$stamina = $oldStamina + $staminaGained;
@@ -62,6 +62,7 @@ if ($oldStamina < $staminaMax) { # Add stamina
 		$stamina = $staminaMax;
 		$next = $now;
 		$timeString = "";
+		$timePercent = 0;
 	} else {
 		$extraHeadTags.="<meta http-equiv='refresh' content='20'></meta>";
 	}
@@ -128,6 +129,7 @@ for( $i = 0; $i < mysql_num_rows( $result ); $i++ ) {
 		"level" => mysql_result( $result, $i, "level" ),
 		"number" => mysql_result( $result, $i, "number" ),
 		"cost" => mysql_result( $result, $i, "cost" ),
+		"type" => mysql_result( $result, $i, "type" ),
 		"id" => mysql_result( $result, $i, "id" )
 	 );
 }
@@ -151,7 +153,7 @@ if ($isAdmin != 0) {
 <div class="container-fluid">
 <div class="row head">
 <div class="row">
-<div class="col-lg-12">
+<div class="col-lg-6 col-lg-offset-3">
 <?php
 print("Hello $name.");
 ?>
@@ -159,21 +161,25 @@ print("Hello $name.");
 </div> <!-- row -->
 <div class="row">
 <div class="col-lg-6">
-<div class="meter-wrap">
+<div class="meter-wrap" style="border-bottom-style: none;">
 <div class="meter-value" style="width: <?=$staminaPercent?>%">
-<div class="width: 100%">
-<div class="meter-value" style="background-color: #f4424e; width: <?=$timePercent?>%">
 <div class="meter-text">
 <?php
-print("Energy: $stamina / $staminaMax. Time till next: $timeString");
+print("Energy: $stamina / $staminaMax. $timeString");
 ?>
 </div> <!-- meter-text -->
-</div> <!-- meter-value -->
-</div> <!-- meter-wrap time -->
 </div> <!-- meter-value -->
 </div> <!-- meter-wrap -->
 </div> <!-- col -->
 </div>  <!-- row -->
+<div class="row">
+<div class="col-lg-6">
+<div class="meter-wrap" style="border-top-style: none;" >
+<div class="meter-value" style="height: 3px; background-color: #f4424e; width: <?=$timePercent?>%">
+</div> <!-- meter-value -->
+</div> <!-- meter wrap -->
+</div> <!-- col -->
+</div> <!-- row -->
 </div>  <!-- row head -->
 <div class="row">
 <div class="col-lg-12 amazing-form">
@@ -184,23 +190,57 @@ print("Energy: $stamina / $staminaMax. Time till next: $timeString");
 </form>
 </div> <!-- col amazing-form -->
 </div> <!-- row -->
-<div class="row"> <!-- body of data -->
+<div class="row data-row"> <!-- body of data -->
+<div class="col-lg-12">
 
 <?php
-print("<table><tr><th>Currency</th><th>Level</th><th>Number</th></tr>\n");
+# Wrap the list into groups. Array of structure, key is Type
+$currencyGroups = array();
 foreach( $currencyCounts as $value ) {
-	print("<tr><td>".$value["name"]."</td><td>".$value["level"]."</td><td>".$value["number"]."</td>");
-	if ($value["cost"] > 0 and $value["number"] >= $value["cost"]) {
-		print("<td><form action='main.php' method='post'>");
-		print("<input type=hidden name=form value='buy'>");
-		print("<input type=hidden name=currencyid value='".$value["id"]."'>");
-		print("<input type=hidden name=level value='".$value["level"]."'>");
-		print("<input type=submit value='Buy Next'></form></td>");
+	$type = $value["type"];
+	if (! array_key_exists($type, $currencyGroups)) {
+		$currencyGroups[$type] = array();
 	}
-	print("</tr>\n");
+	$currencyGroups[$type][] = $value;
 }
-print("</table>");
+$counter = 0;
+foreach( $currencyGroups as $type => $cGroup ) {
+	if ($counter % 4 == 0) {
+		print("<div class='row data-group-row'>");
+	}
+	print <<<END
+<div class='col-sm-3 data-group-col'>
+<div class='row data-head-row'>
+<div class='col-xs-4 table-head'>Currency</div>
+<div class='col-xs-4 table-head'>Number</div>
+</div> <!-- data-head-row -->
+
+END;
+
+	foreach( $cGroup as $value ) {
+		print("<div class='row data-row'>");
+		print("<div class='col-xs-4'>({$value['level']}) {$value['name']}</div>");
+		print("<div class='col-xs-4'>{$value['number']}</div>");
+		if ($value["cost"] > 0 and $value["number"] >= $value["cost"]) {
+			print("<div class='col-lg-4'><form action='main.php' method='post'>");
+			print("<input type=hidden name=form value='buy'>");
+			print("<input type=hidden name=currencyid value='".$value["id"]."'>");
+			print("<input type=hidden name=level value='".$value["level"]."'>");
+			print("<input type=submit value='Buy Next'></form></div>");
+		}
+		print("</div> <!-- data-row -->\n");	
+	}
+	print("</div> <!-- data-group-col -->");
+	
+	$counter++;
+	if ($counter % 4 == 0) {
+		print("</div> <!-- data-group-row -->\n");
+	} 
+}
+
 ?>
+
+</div> <!-- main col -->
 </div> <!-- row - body of data -->
 </div>   <!-- container-fluid -->
 </body>
